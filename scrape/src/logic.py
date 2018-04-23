@@ -5,7 +5,7 @@ import requests
 from os import getenv
 
 groups = {'group1': 'group1', 'group2': 'group2', 'group3': 'group3'}
- 
+
 GROUP_URL = set(getenv('GROUP_URL', 'http://contoso.com/group/'))
 ITEM_URL = set(getenv('ITEM_URL', 'http://contoso.com/item/'))
 LINK = r"(.*?)"
@@ -60,4 +60,4 @@ class mySpider(scrapy.Spider):
         return urls
 
 def scrape():
-    # TODO: Add business logic
+    # scrapy crawl my

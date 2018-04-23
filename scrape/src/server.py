@@ -9,7 +9,6 @@ CORS(app, automatic_options=True)
 
 @app.route('/scrape/form', methods=['POST'])
 async def scrape(request):
-    # TODO: Call business logic
     logic.scrape()
 
 
