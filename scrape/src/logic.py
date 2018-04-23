@@ -2,12 +2,14 @@ import urllib.request
 import re
 import scrapy
 import requests
+from os import getenv
 
-groups = {'group1': 'group1', 'group2': 'group2', 'group3': 'group3'} 
-group_url = 'http://contoso.com/group/'
-item_url = 'http://contoso.com/item/'
-link = r"(.*?)"
-pattern = re.compile(link)
+groups = {'group1': 'group1', 'group2': 'group2', 'group3': 'group3'}
+ 
+GROUP_URL = set(getenv('GROUP_URL', 'http://contoso.com/group/'))
+ITEM_URL = set(getenv('ITEM_URL', 'http://contoso.com/item/'))
+LINK = r"(.*?)"
+LINK_RE = re.compile(LINK)
 
 class mySpider(scrapy.Spider): 
     name = "my"
@@ -32,7 +34,7 @@ class mySpider(scrapy.Spider):
             x = 0
             
             while True:
-                page_url = group_url + url_value + '/?page=' + "%d" % (x)
+                page_url = GROUP_URL + url_value + '/?page=' + "%d" % (x)
 
                 resource = urllib.request.urlopen(page_url)
 
@@ -42,13 +44,13 @@ class mySpider(scrapy.Spider):
 
                 isLast = (True if found_link == -1 else False)
 
-                links = re.findall(pattern, html)
+                links = re.findall(LINK_RE, html)
 
                 for link in links:               
                     if link[0] in urls:
                         print('Skip duplicate url') 
                     else:
-                        urls[link[0]] = item_url % link[0]
+                        urls[link[0]] = ITEM_URL % link[0]
 
                 if isLast:
                     break
